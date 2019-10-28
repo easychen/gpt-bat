@@ -14,3 +14,19 @@ body
 {
     color:$blue1;
 }
+
+.edit
+{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: row;
+    .side
+    {
+        flex:4;
+        background-color: antiquewhite;
+    }
+    .main
+    {
+        flex:6;
+    }
+}

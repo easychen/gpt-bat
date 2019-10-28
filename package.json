@@ -8,6 +8,7 @@
     "mobx": "^5.14.2",
     "mobx-react": "^6.1.4",
     "react": "^16.11.0",
+    "react-document-title": "^2.0.3",
     "react-dom": "^16.11.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0"
