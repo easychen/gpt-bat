@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Hello from '../component/Hello';
 import { inject } from 'mobx-react';
 import { withRouter,Link } from 'react-router-dom';
-import { Button, Intent, Spinner } from "@blueprintjs/core";
+import { Button, Intent, Spinner } from '@blueprintjs/core';
 
 @withRouter
 @inject("store")
