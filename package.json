@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.6.0",
-    "copy-paste-cli": "^1.0.1",
+    "clipboard-cli": "^2.0.0",
     "customize-cra": "^0.8.0",
     "node-sass": "^4.13.0",
     "react-app-rewired": "^2.1.4"

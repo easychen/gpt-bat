@@ -79,7 +79,7 @@ class RoboFile extends \Robo\Tasks
         
         if( $type == 'component' ) $path = '..';
         else $path = '.';
-        $this->_exec(" echo \"import " . $name . " from '" . $path . "/" . $type . "/" . $name . "'; \" | node_modules/copy-paste-cli/cli.js  copy");
+        $this->_exec(" echo \"import " . $name . " from '" . $path . "/" . $type . "/" . $name . "'; \" | node_modules/clipboard-cli/cli.js");
 
         $this->say( "组件初始化完成" );
 
