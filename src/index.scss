@@ -10,6 +10,52 @@ body
   'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
+body,html,#root,.cbox
+{
+  min-height: 100vh;
+}
+
+
+.solo-center
+{
+  min-height: 100%;
+}
+
+.wrapped
+{
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.cbox
+{
+  display: flex;
+  flex-direction: column;
+  .header
+  {
+    height: 60px;
+    background-color: beige;  
+  }
+
+  .body
+  {
+    flex:1;
+  }
+
+  
+  
+  .footer
+  {
+    height: 60px;
+    background-color: antiquewhite; 
+    text-align: center;
+    padding:20px;
+    color:#ccc; 
+  }
+}
+
 .title
 {
     color:$blue1;

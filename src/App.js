@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Index from './screen/Index';
 import Login from './screen/Login';
+import ImportData from './screen/ImportData'; 
 
 
 class App extends Component {
@@ -11,7 +12,8 @@ class App extends Component {
       <Router>
         <Switch>
           <Route path="/login" component={Login} />
-          <Route path="/" component={Index} />
+          <Route path="/index" component={Index} />
+          <Route path="/" component={ImportData} />
         </Switch>
       </Router>  
     );

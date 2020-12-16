@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { observer , inject } from 'mobx-react';
-import { Link } from "react-router-dom";
 import { withRouter } from 'react-router-dom';
-import SoloView from '../component/SoloView'; 
-
 
 @withRouter
 @inject("store")
 @observer
-export default class ClassNamePlaceHolder extends Component
+export default class Header extends Component
 {
     // constructor(props) 
     // {
@@ -20,9 +17,16 @@ export default class ClassNamePlaceHolder extends Component
     //    // 
     // }
 
+    // componentDidUpdate(prevProps)
+    // {
+    //     if (this.props.data !== prevProps.data) 
+    //     {
+           
+    //     }
+    // }
+    
     render()
     {
-        const main = <div>ClassNamePlaceHolder</div>;
-        return <SoloView title={this.props.store.appname} main={main} />;
+        return <div className={(this.props.className||"")+" header"}>Header</div>;
     }
 }

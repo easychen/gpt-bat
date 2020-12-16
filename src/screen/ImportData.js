@@ -8,7 +8,7 @@ import SoloView from '../component/SoloView';
 @withRouter
 @inject("store")
 @observer
-export default class ClassNamePlaceHolder extends Component
+export default class ImportData extends Component
 {
     // constructor(props) 
     // {
@@ -22,7 +22,7 @@ export default class ClassNamePlaceHolder extends Component
 
     render()
     {
-        const main = <div>ClassNamePlaceHolder</div>;
+        const main = <div>ImportData</div>;
         return <SoloView title={this.props.store.appname} main={main} />;
     }
 }
