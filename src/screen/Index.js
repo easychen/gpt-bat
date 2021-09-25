@@ -6,7 +6,8 @@ import { Button, Intent, Spinner } from '@blueprintjs/core';
 
 @withRouter
 @inject("store")
-export default class Index extends Component
+
+class Index extends Component
 {
     render()
     {
@@ -18,3 +19,4 @@ export default class Index extends Component
         </div>;
     }
 } 
+export default Index ; 

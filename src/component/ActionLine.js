@@ -5,10 +5,13 @@ import { withRouter } from 'react-router-dom';
 @withRouter
 @inject("store")
 @observer
-export default class ActionLine extends Component
+class ActionLine extends Component
 {
     render()
     {
         return <div>ActionLine</div>;
     }
 }
+export default ActionLine ; 
+
+ 

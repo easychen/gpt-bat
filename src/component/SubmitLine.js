@@ -6,7 +6,8 @@ import { FormGroup, Button, Intent } from "@blueprintjs/core";
 @withRouter
 @inject("store")
 @observer
-export default class SubmitLine extends Component
+
+class SubmitLine extends Component
 {
     render()
     {
@@ -26,3 +27,5 @@ export default class SubmitLine extends Component
         </FormGroup></>;
     }
 }
+
+export default SubmitLine ; 

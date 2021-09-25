@@ -5,7 +5,8 @@ import { withRouter } from 'react-router-dom';
 @withRouter
 @inject("store")
 @observer
-export default class Header extends Component
+
+class Header extends Component
 {
     // constructor(props) 
     // {
@@ -30,3 +31,5 @@ export default class Header extends Component
         return <div className={(this.props.className||"")+" header"}>Header</div>;
     }
 }
+
+export default Header ; 

@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 @withRouter
 @inject("store")
 @observer
-export default class ClassNamePlaceHolder extends Component
+class ClassNamePlaceHolder extends Component
 {
     // constructor(props) 
     // {
@@ -30,3 +30,4 @@ export default class ClassNamePlaceHolder extends Component
         return <div>ClassNamePlaceHolder</div>;
     }
 }
+export default ClassNamePlaceHolder ; 

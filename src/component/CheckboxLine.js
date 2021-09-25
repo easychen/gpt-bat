@@ -6,7 +6,8 @@ import { FormGroup, RadioGroup,Checkbox } from "@blueprintjs/core";
 @withRouter
 @inject("store")
 @observer
-export default class CheckboxLine extends Component
+
+class CheckboxLine extends Component
 {
     render()
     {
@@ -21,4 +22,6 @@ export default class CheckboxLine extends Component
         </div>;
     }
 }
+export default CheckboxLine ; 
+
 

@@ -7,7 +7,8 @@ import DocumentTitle from 'react-document-title';
 @withRouter
 @inject("store")
 @observer
-export default class ClassNamePlaceHolder extends Component
+
+class ClassNamePlaceHolder extends Component
 {
     // constructor(props) 
     // {
@@ -25,3 +26,4 @@ export default class ClassNamePlaceHolder extends Component
         return <DocumentTitle title={this.props.store.appname}>{main}</DocumentTitle>;
     }
 }
+export default ClassNamePlaceHolder ;

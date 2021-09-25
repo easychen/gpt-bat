@@ -6,7 +6,9 @@ import Select from 'react-select';
 @withRouter
 @inject("store")
 @observer
-export default class MultiSelectLine extends Component
+export default MultiSelectLine ; 
+
+ class MultiSelectLine extends Component
 {
     render()
     {

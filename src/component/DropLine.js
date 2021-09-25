@@ -6,7 +6,9 @@ import Select from 'react-select';
 @withRouter
 @inject("store")
 @observer
-export default class DropLine extends Component
+export default DropLine ; 
+
+ class DropLine extends Component
 {
     render()
     {

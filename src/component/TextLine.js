@@ -6,7 +6,8 @@ import { FormGroup, InputGroup, TextArea } from "@blueprintjs/core";
 @withRouter
 @inject("store")
 @observer
-export default class TextLine extends Component
+
+class TextLine extends Component
 {
     render()
     {
@@ -33,3 +34,5 @@ export default class TextLine extends Component
         </FormGroup>;
     }
 }
+
+export default TextLine ; 

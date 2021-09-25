@@ -5,7 +5,8 @@ import { withRouter } from 'react-router-dom';
 @withRouter
 @inject("store")
 @observer
-export default class Footer extends Component
+
+class Footer extends Component
 {
     // constructor(props) 
     // {
@@ -30,3 +31,5 @@ export default class Footer extends Component
         return <div className={(this.props.className||"")+" footer"}>Footer</div>;
     }
 }
+
+export default Footer ; 

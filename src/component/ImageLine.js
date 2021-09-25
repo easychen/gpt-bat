@@ -8,7 +8,8 @@ import { toast , isApiOk , showApiError } from '../util/Function';
 @withRouter
 @inject("store")
 @observer
-export default class ImageLine extends Component
+
+class ImageLine extends Component
 {
     async onSelected( files )
     {
@@ -47,3 +48,4 @@ export default class ImageLine extends Component
         <div className="lossline"><ReactFileReader fileTypes={[".jpg",".jepg",".gif",".png"]} handleFiles={(files)=>this.onSelected(files)} ><Button icon="upload" large={true} text={this.props.action||"上传图片"} /></ReactFileReader></div></>;
     }
 }
+export default ImageLine ; 

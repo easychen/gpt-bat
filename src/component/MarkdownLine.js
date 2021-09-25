@@ -15,7 +15,8 @@ const converter = new Showdown.Converter({
 @withRouter
 @inject("store")
 @observer
-export default class MarkdownLine extends Component
+
+class MarkdownLine extends Component
 {
     state = {"type":"write"};
     render()
@@ -33,3 +34,4 @@ export default class MarkdownLine extends Component
       />;
     }
 }
+export default MarkdownLine ; 

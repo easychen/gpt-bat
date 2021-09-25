@@ -8,7 +8,8 @@ import SoloView from '../component/SoloView';
 @withRouter
 @inject("store")
 @observer
-export default class ClassNamePlaceHolder extends Component
+
+class ClassNamePlaceHolder extends Component
 {
     // constructor(props) 
     // {
@@ -26,3 +27,4 @@ export default class ClassNamePlaceHolder extends Component
         return <SoloView title={this.props.store.appname} main={main} />;
     }
 }
+export default ClassNamePlaceHolder ; 

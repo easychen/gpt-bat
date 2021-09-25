@@ -6,7 +6,8 @@ import { FormGroup, RadioGroup,Radio } from "@blueprintjs/core";
 @withRouter
 @inject("store")
 @observer
-export default class RadioLine extends Component
+
+class RadioLine extends Component
 {
     render()
     {
@@ -29,3 +30,5 @@ export default class RadioLine extends Component
         </RadioGroup>;
     }
 }
+
+export default RadioLine ; 

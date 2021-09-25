@@ -7,7 +7,8 @@ import { Icon, Button,AnchorButton  } from "@blueprintjs/core";
 @withRouter
 @inject("store")
 @observer
-export default class TimeLineItem extends Component
+
+class TimeLineItem extends Component
 {
     goto()
     {
@@ -56,3 +57,5 @@ export default class TimeLineItem extends Component
         </>  ;
     }
 }
+
+export default TimeLineItem ; 

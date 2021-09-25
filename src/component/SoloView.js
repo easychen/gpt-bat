@@ -8,7 +8,8 @@ import Footer from '../component/Footer';
 @withRouter
 @inject("store")
 @observer
-export default class SoloView extends Component
+
+class SoloView extends Component
 {
     // constructor(props) 
     // {
@@ -39,3 +40,5 @@ export default class SoloView extends Component
             </div></DocumentTitle>;
     }
 }
+
+export default SoloView ; 
