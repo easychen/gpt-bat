@@ -34,56 +34,8 @@ class Bat extends Component
         
         const reader = new FileReader();
         reader.addEventListener("loadend", async (event) => {
-            const content = event.target.result;
-            if( this.props.store.split_type == "newline" )
-            {
-                this.props.store.lists = content.split( "\n" ).filter( item => item.length > 0 );
-            }
-            if( this.props.store.split_type == "char" )
-            {
-                this.props.store.lists = content.split( RegExp(this.props.store.split_char) ).filter( item => item.length > 0 );
-            }
-            if( this.props.store.split_type == "length" )
-            {
-                // 按 this.props.store.split_length 分割 content 为数组
-                const split_length = parseInt( this.props.store.split_length );
-                const ret = [];
-                for( let i = 0 ; i < content.length ; i+=split_length )
-                {
-                    ret.push( content.substr(i,split_length) );
-                }
-                if( ret && ret.length > 0 ) this.props.store.lists = ret;
-            }
-
-            // 循环 lists ，将长度超过 max_tokens 的内容分割为多个数组元素
-            const max_tokens = parseInt( this.props.store.max_tokens );
-            const ret = [];
-            for( let i = 0 ; i < this.props.store.lists.length ; i++ )
-            {
-                const item = this.props.store.lists[i];
-                if( item.length > max_tokens )
-                {
-                    const split_count = Math.ceil( item.length / max_tokens );
-                    for( let j = 0 ; j < split_count ; j++ )
-                    {
-                        ret.push( item.substr( j*max_tokens, max_tokens ) );
-                    }
-                }
-                else
-                {
-                    ret.push( item );
-                }
-            }
-            if( ret && ret.length > 0 ) this.props.store.lists = ret;
-
-            console.log(" files");
-            const prompts_token_count = await this.props.store.get_token_count( this.props.user_prompt + '' + this.props.system_prompt );
-
-            const content_token_count = await this.props.store.get_token_count( content );
-
-            console.log( "prompts_token_count", prompts_token_count , "content_token_count", content_token_count );
-            
-            this.props.store.upload_tokens_count = content_token_count + ( 6 +  prompts_token_count )* this.props.store.lists.length;
+            this.content = event.target.result;
+            await this.spliting( this.content );
 
         });
         reader.readAsText(files[0]);
@@ -94,6 +46,59 @@ class Bat extends Component
         //const store = this.props.store;
         // store.openFile( files[0] );
         //console.log( files[0] );
+    }
+
+    async spliting( content )
+    {
+        if( this.props.store.split_type == "newline" )
+        {
+            this.props.store.lists = content.split( "\n" ).filter( item => item.length > 0 );
+        }
+        if( this.props.store.split_type == "char" )
+        {
+            this.props.store.lists = content.split( RegExp(this.props.store.split_char) ).filter( item => item.length > 0 );
+        }
+        if( this.props.store.split_type == "length" )
+        {
+            // 按 this.props.store.split_length 分割 content 为数组
+            const split_length = parseInt( this.props.store.split_length );
+            const ret = [];
+            for( let i = 0 ; i < content.length ; i+=split_length )
+            {
+                ret.push( content.substr(i,split_length) );
+            }
+            if( ret && ret.length > 0 ) this.props.store.lists = ret;
+        }
+
+        // 循环 lists ，将长度超过 max_tokens 的内容分割为多个数组元素
+        const max_tokens = parseInt( this.props.store.max_tokens );
+        const ret = [];
+        for( let i = 0 ; i < this.props.store.lists.length ; i++ )
+        {
+            const item = this.props.store.lists[i];
+            if( item.length > max_tokens )
+            {
+                const split_count = Math.ceil( item.length / max_tokens );
+                for( let j = 0 ; j < split_count ; j++ )
+                {
+                    ret.push( item.substr( j*max_tokens, max_tokens ) );
+                }
+            }
+            else
+            {
+                ret.push( item );
+            }
+        }
+        if( ret && ret.length > 0 ) this.props.store.lists = ret;
+
+        console.log(" files");
+        const prompts_token_count = await this.props.store.get_token_count( this.props.user_prompt + '' + this.props.system_prompt );
+
+        const content_token_count = await this.props.store.get_token_count( content );
+
+        console.log( "prompts_token_count", prompts_token_count , "content_token_count", content_token_count );
+        
+        this.props.store.upload_tokens_count = content_token_count + ( 6 +  prompts_token_count )* this.props.store.lists.length;
     }
 
     async process()
@@ -181,7 +186,7 @@ class Bat extends Component
             <div className="text-xl text-blue-500">GPT::BAT</div>
             <div className="text-lg mb-5 text-gray-400">{store.i18n[this.state.lang]?.subtitle}</div>
             
-            <SingleSelectLine field="split_type" className="mt-2" label={store.i18n[this.state.lang]?.split_type} options={[
+            <SingleSelectLine onChange={()=>this.spliting(this.content)} field="split_type" className="mt-2" label={store.i18n[this.state.lang]?.split_type} options={[
                 {value:"newline",label:store.i18n[this.state.lang]?.split_by_line},
                 {value:"length",label:store.i18n[this.state.lang]?.split_by_length},
                 {value:"char",label:store.i18n[this.state.lang]?.split_by_char},
@@ -213,7 +218,7 @@ class Bat extends Component
                 <div {...getRootProps()}>
                     {/*  */}
                     <input {...getInputProps()} />
-                    <Button large={true} icon="upload" text={store.i18n[this.state.lang]?.upload_file} />
+                    <Button large={true} icon="document-open" text={store.i18n[this.state.lang]?.upload_file} />
                 </div>
                 )}
             </Dropzone>
@@ -228,7 +233,7 @@ class Bat extends Component
 
             <div className="bg-blue-100 rounded p-5 mt-5 process-info">{this.state.out}{this.state.map_text}</div>
 
-            <div className="text-gray-400 px-2 mt-5">Made by <a href="https://github.com/easychen" rel="noreferrer" target="_blank">EasyChen</a></div>
+            <div className="text-gray-400 px-2 mt-5">🎈 Made by <a href="https://github.com/easychen" rel="noreferrer" target="_blank">EasyChen</a></div>
 
             </div>
             <div className="right w-1/2">

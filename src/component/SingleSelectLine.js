@@ -31,6 +31,7 @@ class SingleSelectLine extends Component
                 }
                 else
                 this.props.store[this.props.field] = e.value;
+                if( this.props.onChange ) this.props.onChange( e );
             }}
             options={this.props.options||[]}
         /></div>;
