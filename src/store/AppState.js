@@ -157,7 +157,7 @@ class AppState
                     }
                 ],
                 model: model || this.model,
-                max_tokens: max_tokens || this.max_tokens,
+                max_tokens: parseInt(max_tokens) || parseInt(this.max_tokens),
             });
             
             if( ret )

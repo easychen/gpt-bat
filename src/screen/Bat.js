@@ -50,13 +50,15 @@ class Bat extends Component
 
     async spliting( content )
     {
+        if( !content || content.trim().length < 1 ) return false;
+        
         if( this.props.store.split_type == "newline" )
         {
             this.props.store.lists = content.split( "\n" ).filter( item => item.length > 0 );
         }
         if( this.props.store.split_type == "char" )
         {
-            this.props.store.lists = content.split( RegExp(this.props.store.split_char) ).filter( item => item.length > 0 );
+            this.props.store.lists = content?.split( RegExp(this.props.store.split_char) ).filter( item => item.length > 0 );
         }
         if( this.props.store.split_type == "length" )
         {
@@ -73,7 +75,7 @@ class Bat extends Component
         // 循环 lists ，将长度超过 max_tokens 的内容分割为多个数组元素
         const max_tokens = parseInt( this.props.store.max_tokens );
         const ret = [];
-        for( let i = 0 ; i < this.props.store.lists.length ; i++ )
+        for( let i = 0 ; i < this.props.store.lists?.length ; i++ )
         {
             const item = this.props.store.lists[i];
             if( item.length > max_tokens )
@@ -103,6 +105,8 @@ class Bat extends Component
 
     async process()
     {
+        if( !this.content ) return false;
+        
         if( this.props.store.openai_key.trim().length == 0 )
         {
             toast("请先设置OpenAI/API2D Key");
@@ -222,7 +226,7 @@ class Bat extends Component
                 </div>
                 )}
             </Dropzone>
-            <Button large={true} icon="rocket-slant" className="ml-2" text={store.i18n[this.state.lang]?.begin_process} onClick={()=>this.process()} disabled={!(this.props.store.lists.length>0)} />
+            <Button large={true} icon="rocket-slant" className="ml-2" text={store.i18n[this.state.lang]?.begin_process} onClick={()=>this.process()} disabled={!(this.props.store.lists?.length>0)} />
 
             <ButtonGroup className="ml-2">
                 <Button large={true} text="En" active={this.state.lang=='en'} onClick={()=>this.setState({"lang":"en"})}/>
@@ -237,7 +241,7 @@ class Bat extends Component
 
             </div>
             <div className="right w-1/2">
-                    <div className="log p-2 text-lg bg-blue-100">{this.props.store.lists.length} {store.i18n[this.state.lang]?.segment} {store.i18n[this.state.lang]?.about} {(parseInt(this.props.store.upload_tokens_count/100)+1)*100} Tokens</div>
+                    <div className="log p-2 text-lg bg-blue-100">{this.props.store.lists?.length} {store.i18n[this.state.lang]?.segment} {store.i18n[this.state.lang]?.about} {(parseInt(this.props.store.upload_tokens_count/100)+1)*100} Tokens</div>
                     
                     <div className="content-list">
                     {this.props.store.lists && this.props.store.lists.map( (item,index) => <div key={index} className="p-2 content-item">{item}</div> )}
