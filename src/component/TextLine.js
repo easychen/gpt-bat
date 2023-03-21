@@ -23,6 +23,7 @@ class TextLine extends Component
             placeholder={this.props.placeholder} 
             onChange={(e)=>this.props.store[this.props.field] = e.target.value } value={value}
             className="fluid"
+            fill={true}
         />
             : 
             <InputGroup className={this.props.className||""} type={this.props.type} large="true" placeholder={this.props.placeholder} onChange={(e)=>this.props.store[this.props.field] = e.target.value } value={value} />

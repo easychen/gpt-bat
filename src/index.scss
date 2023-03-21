@@ -23,7 +23,7 @@ body,html,#root,.cbox
 
 .wrapped
 {
-  max-width: 800px;
+  max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
   width: 100%;
@@ -71,6 +71,28 @@ body,html,#root,.cbox
   }
 
   overflow: hidden;
+}
+
+.content-list
+{
+  overflow-y: scroll;
+  height: calc(100vh - 200px );
+  .content-item
+  {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    
+  }
+}
+
+*:focus
+{
+  outline: none!important;
+}
+
+.process-info:empty
+{
+  display: none;
 }
 
 
