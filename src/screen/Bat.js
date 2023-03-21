@@ -21,7 +21,7 @@ class Bat extends Component
     {
         super(props);
         this.drop_ref = React.createRef();
-        this.state = {"open_dialog":false,"out":"","map_text":""};
+        this.state = {"open_dialog":false,"out":"","map_text":"","lang":"en"};
     }
     
     // componentDidMount()
@@ -165,26 +165,27 @@ class Bat extends Component
 
     render()
     {
+        const store = this.props.store;
         const main = <div className="flex flex-row justify-between border rounded  p-10 mt-10 editor">
             <div className="left w-1/2">
 
             <div className="text-xl text-blue-500">GPT::BAT</div>
-            <div className="text-lg mb-5 text-gray-400">GPT长文本处理程序</div>
+            <div className="text-lg mb-5 text-gray-400">{store.i18n[this.state.lang]?.subtitle}</div>
             
-            <SingleSelectLine field="split_type" className="mt-2" label="分隔方式" options={[
-                {value:"newline",label:"按换行分隔"},
-                {value:"length",label:"按长度分隔"},
-                {value:"char",label:"按特殊字符分隔"},
+            <SingleSelectLine field="split_type" className="mt-2" label={store.i18n[this.state.lang]?.split_type} options={[
+                {value:"newline",label:store.i18n[this.state.lang]?.split_by_line},
+                {value:"length",label:store.i18n[this.state.lang]?.split_by_length},
+                {value:"char",label:store.i18n[this.state.lang]?.split_by_char},
             ]} />
 
-            {this.props.store.split_type == "length" && <TextLine field="split_length" className="mt-2" placeholder="分隔长度" />}
-            {this.props.store.split_type == "char" && <TextLine field="split_char" className="mt-2" placeholder="分隔符，支持正则" />}
+            {this.props.store.split_type == "length" && <TextLine field="split_length" className="mt-2" placeholder={store.i18n[this.state.lang]?.split_length} />}
+            {this.props.store.split_type == "char" && <TextLine field="split_char" className="mt-2" placeholder={store.i18n[this.state.lang]?.split_char} />}
             
             <div className="border rounded p-5 mt-8">
-            <TextLine type="textarea" field="system_prompt" className="mt-2" placeholder="" label="System 提示词" /> 
-            <TextLine type="textarea" field="user_prompt" className="mt-2" placeholder="" label="User 提示词" />       
+            <TextLine type="textarea" field="system_prompt" className="mt-2" placeholder="" label={store.i18n[this.state.lang]?.system_prompt} /> 
+            <TextLine type="textarea" field="user_prompt" className="mt-2" placeholder="" label={store.i18n[this.state.lang]?.user_prompt} />       
             <TextLine field="max_tokens" className="mt-2" placeholder="" label="Max Tokens" />   
-            <SingleSelectLine field="model" className="mt-2" label="模型" 
+            <SingleSelectLine field="model" className="mt-2" label={store.i18n[this.state.lang]?.model} 
             menuPlacement='top'
             options={[
                 {value:"gpt4",label:"GPT4"},
@@ -203,27 +204,35 @@ class Bat extends Component
                 <div {...getRootProps()}>
                     {/*  */}
                     <input {...getInputProps()} />
-                    <Button large={true} icon="upload" text="上传文件" />
+                    <Button large={true} icon="upload" text={store.i18n[this.state.lang]?.upload_file} />
                 </div>
                 )}
             </Dropzone>
-            <Button large={true} icon="rocket-slant" className="ml-2" text="开始处理" onClick={()=>this.process()} disabled={!(this.props.store.lists.length>0)} />
+            <Button large={true} icon="rocket-slant" className="ml-2" text={store.i18n[this.state.lang]?.begin_process} onClick={()=>this.process()} disabled={!(this.props.store.lists.length>0)} />
+
+            <ButtonGroup className="ml-2">
+                <Button large={true} text="En" active={this.state.lang=='en'} onClick={()=>this.setState({"lang":"en"})}/>
+                <Button large={true} text="中文" active={this.state.lang=='zh'} onClick={()=>this.setState({"lang":"zh"})}/>
+            </ButtonGroup>
+
             </ButtonGroup>
 
             <div className="bg-blue-100 rounded p-5 mt-5 process-info">{this.state.out}{this.state.map_text}</div>
 
+            <div className="text-gray-400 px-2 mt-5">Make by <a href="https://github.com/easychen" rel="noreferrer" target="_blank">EasyChen</a></div>
+
             </div>
             <div className="right w-1/2">
-                    <div className="log p-2 text-lg bg-blue-100">{this.props.store.lists.length}段 约 {(parseInt(this.props.store.upload_tokens_count/100)+1)*100} Tokens</div>
+                    <div className="log p-2 text-lg bg-blue-100">{this.props.store.lists.length} {store.i18n[this.state.lang]?.segment} {store.i18n[this.state.lang]?.about} {(parseInt(this.props.store.upload_tokens_count/100)+1)*100} Tokens</div>
                     
                     <div className="content-list">
                     {this.props.store.lists && this.props.store.lists.map( (item,index) => <div key={index} className="p-2 content-item">{item}</div> )}
                     </div>
-                    <Dialog isOpen={this.state.open_dialog} title="设置OpenAI/ Forward Key" icon="info-sign" onClose={()=>this.setState({"open_dialog":false})}>
+                    <Dialog isOpen={this.state.open_dialog} title={store.i18n[this.state.lang]?.key_settings_title} icon="info-sign" onClose={()=>this.setState({"open_dialog":false})}>
                     <div className="p-5 mt-2">
-                    <TextLine field="openai_key" placeholder="请输入OpenAI/Forward KEY: sk-xxx/fkxxx" />
-                    <TextLine field="openai_api_url" placeholder="请输入API地址，如无需代理可留空" />
-                    <SubmitLine onSubmit={()=>this.save_key()} cancel={<AnchorButton large={true} icon="key" href="https://api2d.com/r/186008" target="_blank">申请Forward Key · 可微信充值</AnchorButton>} />
+                    <TextLine field="openai_key" placeholder={store.i18n[this.state.lang]?.key_settings_key} />
+                    <TextLine field="openai_api_url" placeholder={store.i18n[this.state.lang]?.key_settings_url} />
+                    <SubmitLine onSubmit={()=>this.save_key()} cancel={<AnchorButton large={true} icon="key" href="https://api2d.com/r/186008" target="_blank">{store.i18n[this.state.lang]?.key_settings_apply}</AnchorButton>} />
 
                     </div>
                     </Dialog>

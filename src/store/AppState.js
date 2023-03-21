@@ -18,6 +18,49 @@ class AppState
     @observable model = "gpt-3.5-turbo"; 
     @observable lists = []; 
 
+    i18n = {
+        "zh": {
+            "subtitle":"GPT长文本处理程序",
+            "split_type":"分隔方式",
+            "split_by_line":"按换行分隔",
+            "split_by_length":"按长度分隔",
+            "split_by_char":"按特殊字符分隔",
+            "split_length":"分隔长度",
+            "split_char":"分隔符，支持正则",
+            "system_prompt":"System 提示词",
+            "user_prompt":"User 提示词",
+            "model":"模型",
+            "upload_file":"上传文件",
+            "begin_process":"开始处理",
+            "segment":"段",
+            "about":"约",
+            "key_settings_title":"设置OpenAI/ Forward Key",
+            "key_settings_key":"请输入OpenAI/Forward KEY: sk-xxx/fkxxx",
+            "key_settings_url":"请输入API地址，如无需代理可留空",
+            "key_settings_apply":"申请Forward Key · 可微信充值",
+        },
+        "en": {
+            "subtitle": "Batch Processing for GPT",
+            "split_type": "Split Type",
+            "split_by_line": "Split by Line",
+            "split_by_length": "Split by Length",
+            "split_by_char": "Split by Special Character",
+            "split_length": "Split Length",
+            "split_char": "Split Character, supports regex",
+            "system_prompt": "System Prompt",
+            "user_prompt": "User Prompt",
+            "model": "Model",
+            "upload_file": "Upload File",
+            "begin_process": "Process",
+            "segment": "Segments",
+            "about": "About",
+            "key_settings_title": "Set OpenAI/Forward Key",
+            "key_settings_key": "Please enter OpenAI/Forward KEY: sk-xxx/fkxxx",
+            "key_settings_url": "Please enter API address, leave blank if no proxy is needed",
+            "key_settings_apply": "Apply for Forward Key · WeChat recharge available"
+        }
+    };
+
 
     @observable openai_key = ""; 
     @observable openai_api_url = "https://api.openai.com"; 
