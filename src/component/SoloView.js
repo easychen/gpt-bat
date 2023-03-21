@@ -32,11 +32,10 @@ class SoloView extends Component
     render()
     {
         return <DocumentTitle title={this.props.title||this.props.store.appname}>
-            <div className="cbox"><Header className="wrapped"/>
+            <div className="cbox">
             <div className="solo-center body wrapped">
             {this.props.main}
             </div>
-            <Footer className="wrapped"/>
             </div></DocumentTitle>;
     }
 }

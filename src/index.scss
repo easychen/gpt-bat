@@ -61,4 +61,17 @@ body,html,#root,.cbox
     color:$blue1;
 }
 
+.editor
+{
+  height: calc(100vh - 80px );
+  .left
+  {
+    border-right: 1px solid #eee;
+    padding-right: 30px;
+  }
+
+  overflow: hidden;
+}
+
+
   

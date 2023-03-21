@@ -25,7 +25,7 @@ class TextLine extends Component
             className="fluid"
         />
             : 
-            <InputGroup type={this.props.type} large="true" placeholder={this.props.placeholder} onChange={(e)=>this.props.store[this.props.field] = e.target.value } value={value} />
+            <InputGroup className={this.props.className||""} type={this.props.type} large="true" placeholder={this.props.placeholder} onChange={(e)=>this.props.store[this.props.field] = e.target.value } value={value} />
         }
 
     { parseInt(this.props.max_count) > 0 && <div className="text-count">{value.length}/{this.props.max_count}</div> }
