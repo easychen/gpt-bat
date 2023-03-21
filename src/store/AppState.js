@@ -1,6 +1,7 @@
 import { observable } from "mobx";
 import api2d from 'api2d';
 import sha256 from 'crypto-js/sha256';
+import { toast } from "../util/Function";
 
 const APP_VAR_PREFIX = "GPTBAT_";
 
@@ -169,6 +170,8 @@ class AppState
             {
                 return "";
             }
+            
+            
         }
     }
     

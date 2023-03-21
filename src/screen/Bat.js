@@ -21,7 +21,7 @@ class Bat extends Component
     {
         super(props);
         this.drop_ref = React.createRef();
-        this.state = {"open_dialog":false,"out":"","map_text":"","lang":"en"};
+        this.state = {"open_dialog":false,"out":"","map_text":"","lang":"zh"};
     }
     
     // componentDidMount()
@@ -111,19 +111,28 @@ class Bat extends Component
         const store = this.props.store;
         // 循环 lists 处理
         const ret = [];
-        for( let i = 0 ; i < store.lists.length ; i++ )
-        {
-            const item = store.lists[i];
-            const ret_item = await store.do_process( item, store.user_prompt, store.system_prompt, store.model, store.max_tokens||1000  );
-            if( ret_item ) ret.push( ret_item );
-            this.setState( {"out":"已完成" + (i+1) + "/" + store.lists.length,"map_text": " - "+ret_item.substr(0,50)+'...'} );
+        
+        try {
+            for( let i = 0 ; i < store.lists.length ; i++ )
+            {
+                const item = store.lists[i];
+                const ret_item = await store.do_process( item, store.user_prompt, store.system_prompt, store.model, store.max_tokens||1000  );
+                if( ret_item ) ret.push( ret_item );
+                this.setState( {"out":"已完成" + (i+1) + "/" + store.lists.length,"map_text": " - "+ret_item.substr(0,50)+'...'} );
+            }
+        } catch (error) {
+            console.error(error);
+            toast("处理失败，请已处理内容已缓存，可稍后重新再试");
+            return; 
         }
+        
+        
 
         // 保存结果
         // 下载结果
         const join_string = store.split_type == "length" ? "":"\r\n" ;
         
-        saveAs( new Blob( [ret.join(join_string)], {type: "text/plain;charset=utf-8"} ), "result.txt" );
+        saveAs( new Blob( [ret.join(join_string)], {type: "text/plain;charset=utf-8"} ), "GPT_BAT_result.txt" );
 
         window.setTimeout( ()=>{
             if( window.confirm("处理完成，是否清除缓存") )
@@ -139,7 +148,7 @@ class Bat extends Component
                 }
                 toast("清除完成");
             }
-        }, 2000 );
+        }, 3000 );
         
         
     }
@@ -219,7 +228,7 @@ class Bat extends Component
 
             <div className="bg-blue-100 rounded p-5 mt-5 process-info">{this.state.out}{this.state.map_text}</div>
 
-            <div className="text-gray-400 px-2 mt-5">Make by <a href="https://github.com/easychen" rel="noreferrer" target="_blank">EasyChen</a></div>
+            <div className="text-gray-400 px-2 mt-5">Made by <a href="https://github.com/easychen" rel="noreferrer" target="_blank">EasyChen</a></div>
 
             </div>
             <div className="right w-1/2">
