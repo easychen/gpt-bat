@@ -17,7 +17,7 @@ class CheckboxLine extends Component
         return  <div className="lossline"
         >
         <div className="label lossline">{this.props.label}</div>    
-        { this.props.options && this.props.options.map( item => { return <Checkbox key={prefix+key++} checked={this.props.store[item.field]=="1"} label={item.label} onChange={e => { this.props.store[item.field] = e.target.checked ? "1":"0"}} inline={true} /> } )  }
+        { this.props.options && this.props.options.map( item => { return <Checkbox key={prefix+key++} checked={this.props.store[item.field]=="yes"} label={item.label} onChange={e => { this.props.store[item.field] = e.target.checked ? "yes":"no"}} inline={true} /> } )  }
         
         </div>;
     }

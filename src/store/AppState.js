@@ -19,6 +19,7 @@ class AppState
     @observable upload_tokens_count = 0;    
     @observable model = "gpt-3.5-turbo"; 
     @observable lists = []; 
+    @observable count_token = "no"; 
 
     @observable _content = ""; 
 
@@ -116,13 +117,13 @@ class AppState
         // https://service-qodt7tt0-1256183612.gz.apigw.tencentcs.com/release/countTokens
         // payload { key, text }
         
-        const ret = await fetch( "https://service-qodt7tt0-1256183612.gz.apigw.tencentcs.com/release/countTokens", {
+        const ret = await fetch( process.env.REACT_APP_TOKEN_API, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                key: "1243r4d#s2",
+                key: process.env.REACT_APP_TOKEN_KEY,
                 text
             })
         });

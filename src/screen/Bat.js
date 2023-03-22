@@ -10,6 +10,7 @@ import SubmitLine from '../component/SubmitLine';
 import SingleSelectLine from '../component/SingleSelectLine';
 import { toast } from '../util/Function';
 import { saveAs } from 'file-saver';
+import CheckboxLine from '../component/CheckboxLine';
 
 @withRouter
 @inject("store")
@@ -94,13 +95,17 @@ class Bat extends Component
         if( ret && ret.length > 0 ) this.props.store.lists = ret;
 
         console.log(" files");
-        const prompts_token_count = await this.props.store.get_token_count( this.props.user_prompt + '' + this.props.system_prompt );
-
-        const content_token_count = await this.props.store.get_token_count( content );
-
-        console.log( "prompts_token_count", prompts_token_count , "content_token_count", content_token_count );
         
-        this.props.store.upload_tokens_count = content_token_count + ( 6 +  prompts_token_count )* this.props.store.lists.length;
+        if( this.props.store.count_token == 'yes' )
+        {
+            const prompts_token_count = await this.props.store.get_token_count( this.props.user_prompt + '' + this.props.system_prompt );
+
+            const content_token_count = await this.props.store.get_token_count( content );
+
+            console.log( "prompts_token_count", prompts_token_count , "content_token_count", content_token_count );
+            
+            this.props.store.upload_tokens_count = content_token_count + ( 6 +  prompts_token_count )* this.props.store.lists.length;
+        }
     }
 
     async paste()
@@ -165,6 +170,26 @@ class Bat extends Component
                 toast("清除完成");
             }
         }, 3000 );
+        
+        
+    }
+
+    async toggle_token()
+    {
+        if( this.props.store.count_token == 'no' )
+        {
+            if(!window.confirm("Token预估需要将您的内容发送到服务器进行计算，且预估数量不完全准确，是否继续？"))
+            {
+                return false;
+            }else
+            {
+                this.props.store.count_token = 'yes';
+                await this.spliting(this.content); 
+            }
+        }else
+        {
+            this.props.store.count_token = 'no'; 
+        }
         
         
     }
@@ -259,9 +284,9 @@ class Bat extends Component
 
             <Button large={true} icon="key" className="" onClick={()=>this.setState({"open_dialog":!this.state.open_dialog})} text="OpenAI/API2D Key" />
 
-            <ButtonGroup >
+            {this.props.store.count_token == "yes" ? <Button large={true} text="预估Token" onClick={()=>this.toggle_token()} active={true} /> :<Button large={true} text="预估Token" onClick={()=>this.toggle_token()} />}
 
-                
+            <ButtonGroup >
 
                 <Button large={true} text="En" active={this.state.lang=='en'} onClick={()=>this.setState({"lang":"en"})}/>
                 <Button large={true} text="中文" active={this.state.lang=='zh'} onClick={()=>this.setState({"lang":"zh"})}/>
@@ -276,7 +301,12 @@ class Bat extends Component
 
             </div>
             <div className="right w-1/2">
-                <div className="log p-2 text-lg bg-blue-100">{this.props.store.lists?.length} {store.i18n[this.state.lang]?.segment} {store.i18n[this.state.lang]?.about} {(parseInt(this.props.store.upload_tokens_count/100)+1)*100} Tokens</div>
+                <div className="log p-2 text-lg bg-blue-100">{this.props.store.lists?.length} {store.i18n[this.state.lang]?.segment}
+                
+                 { this.props.store.count_token == "yes" ? <> {store.i18n[this.state.lang]?.about} {(parseInt(this.props.store.upload_tokens_count/100)+1)*100} Tokens</>  : null }
+                
+                 
+                 </div>
                 
                 <div className="content-list">
                 {this.props.store.lists && this.props.store.lists.map( (item,index) => <div key={index} className="p-2 content-item">{item}</div> )}
