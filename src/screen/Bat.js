@@ -21,7 +21,7 @@ class Bat extends Component
     {
         super(props);
         this.drop_ref = React.createRef();
-        this.state = {"open_dialog":false,"out":"","map_text":"","lang":"zh"};
+        this.state = {"open_dialog":false,"out":"","map_text":"","lang":"zh","open_editor":false};
     }
     
     // componentDidMount()
@@ -54,7 +54,7 @@ class Bat extends Component
         
         if( this.props.store.split_type == "newline" )
         {
-            this.props.store.lists = content.split( "\n" ).filter( item => item.length > 0 );
+            this.props.store.lists = content.split( "\n" ).filter( item => item.length > 1 );
         }
         if( this.props.store.split_type == "char" )
         {
@@ -103,6 +103,11 @@ class Bat extends Component
         this.props.store.upload_tokens_count = content_token_count + ( 6 +  prompts_token_count )* this.props.store.lists.length;
     }
 
+    async paste()
+    {
+        this.setState({"open_editor":true});
+    }
+
     async process()
     {
         if( !this.content ) return false;
@@ -113,6 +118,8 @@ class Bat extends Component
             this.setState( {"open_dialog":true} );
             return;
         }
+
+        this.props.store.save_vars();
 
         this.setState( {"out":"开始处理"} );
         
@@ -177,6 +184,13 @@ class Bat extends Component
         toast("保存成功");
     }
 
+    async save_content()
+    {
+        this.content = this.props.store._content;
+        await this.spliting( this.content ); 
+        this.setState({"open_editor":false});  
+    }
+
     
 
 
@@ -201,18 +215,25 @@ class Bat extends Component
             
             <div className="border rounded p-5 mt-8">
             <TextLine type="textarea" field="system_prompt" className="mt-2" placeholder="" label={store.i18n[this.state.lang]?.system_prompt} /> 
-            <TextLine type="textarea" field="user_prompt" className="mt-2" placeholder="" label={store.i18n[this.state.lang]?.user_prompt} />       
-            <TextLine field="max_tokens" className="mt-2" placeholder="" label="Max Tokens" />   
-            <SingleSelectLine field="model" className="mt-2" label={store.i18n[this.state.lang]?.model} 
+            <TextLine type="textarea" field="user_prompt" className="mt-2" placeholder="" label={store.i18n[this.state.lang]?.user_prompt} />  
+
+            <div className="flex flex-row justify-between">
+
+            <TextLine field="max_tokens" className="mt-2 mr-2 w-16" placeholder="" label="Max Tokens" />   
+            <TextLine field="temperature" className="mt-2 mr-2 w-16" placeholder="" label="Temperature" />   
+            <SingleSelectLine field="model" className="mt-3" label={store.i18n[this.state.lang]?.model} 
             menuPlacement='top'
             options={[
                 {value:"gpt4",label:"GPT4"},
                 {value:"gpt-3.5-turbo",label:"GPT3.5"},
-            ]} />    
+            ]} /> 
+
+            </div>
+
+               
             </div>
 
             <ButtonGroup className="mt-8">
-            <Button large={true} icon="key" className="ml-2" onClick={()=>this.setState({"open_dialog":!this.state.open_dialog})} />
             <Dropzone 
                 maxSize={1024*1024*10}
                 multiple={false} 
@@ -226,34 +247,58 @@ class Bat extends Component
                 </div>
                 )}
             </Dropzone>
+            <div className="flex flex-row items-center text-gray-400 px-2">- OR -</div>
+            <Button large={true} icon="clipboard" text={store.i18n[this.state.lang]?.paste_text} onClick={()=>this.paste()} />
+
             <Button large={true} icon="rocket-slant" className="ml-2" text={store.i18n[this.state.lang]?.begin_process} onClick={()=>this.process()} disabled={!(this.props.store.lists?.length>0)} />
 
-            <ButtonGroup className="ml-2">
+            </ButtonGroup>
+
+            <div className="mt-8 flex flex-row justify-between border-t pt-8">
+
+
+            <Button large={true} icon="key" className="" onClick={()=>this.setState({"open_dialog":!this.state.open_dialog})} text="OpenAI/API2D Key" />
+
+            <ButtonGroup >
+
+                
+
                 <Button large={true} text="En" active={this.state.lang=='en'} onClick={()=>this.setState({"lang":"en"})}/>
                 <Button large={true} text="中文" active={this.state.lang=='zh'} onClick={()=>this.setState({"lang":"zh"})}/>
             </ButtonGroup>
-
-            </ButtonGroup>
+            </div>
 
             <div className="bg-blue-100 rounded p-5 mt-5 process-info">{this.state.out}{this.state.map_text}</div>
 
-            <div className="text-gray-400 px-2 mt-5">🎈 Made by <a href="https://github.com/easychen" rel="noreferrer" target="_blank">EasyChen</a></div>
+            <div className="text-gray-400 px-2 mt-5">PS: 由于浏览器限制存储，文本请不要超过10M (Edge/Chrome) 或者 5M( Safari )</div>
+
+            <div className="text-gray-400 px-2 mt-5">🎈 Made by <a href="https://github.com/easychen" rel="noreferrer" target="_blank">EasyChen</a> · <a href="https://github.com/easychen/gpt-bat" target="_blank" rel="noreferrer">源代码</a> </div>
 
             </div>
             <div className="right w-1/2">
-                    <div className="log p-2 text-lg bg-blue-100">{this.props.store.lists?.length} {store.i18n[this.state.lang]?.segment} {store.i18n[this.state.lang]?.about} {(parseInt(this.props.store.upload_tokens_count/100)+1)*100} Tokens</div>
-                    
-                    <div className="content-list">
-                    {this.props.store.lists && this.props.store.lists.map( (item,index) => <div key={index} className="p-2 content-item">{item}</div> )}
-                    </div>
-                    <Dialog isOpen={this.state.open_dialog} title={store.i18n[this.state.lang]?.key_settings_title} icon="info-sign" onClose={()=>this.setState({"open_dialog":false})}>
-                    <div className="p-5 mt-2">
-                    <TextLine field="openai_key" placeholder={store.i18n[this.state.lang]?.key_settings_key} />
-                    <TextLine field="openai_api_url" placeholder={store.i18n[this.state.lang]?.key_settings_url} />
-                    <SubmitLine onSubmit={()=>this.save_key()} cancel={<AnchorButton large={true} icon="key" href="https://api2d.com/r/186008" target="_blank">{store.i18n[this.state.lang]?.key_settings_apply}</AnchorButton>} />
+                <div className="log p-2 text-lg bg-blue-100">{this.props.store.lists?.length} {store.i18n[this.state.lang]?.segment} {store.i18n[this.state.lang]?.about} {(parseInt(this.props.store.upload_tokens_count/100)+1)*100} Tokens</div>
+                
+                <div className="content-list">
+                {this.props.store.lists && this.props.store.lists.map( (item,index) => <div key={index} className="p-2 content-item">{item}</div> )}
+                </div>
+                <Dialog isOpen={this.state.open_dialog} title={store.i18n[this.state.lang]?.key_settings_title} icon="info-sign" onClose={()=>this.setState({"open_dialog":false})}>
+                <div className="p-5 mt-2">
+                <TextLine field="openai_key" placeholder={store.i18n[this.state.lang]?.key_settings_key} />
+                <TextLine field="openai_api_url" placeholder={store.i18n[this.state.lang]?.key_settings_url} />
+                <SubmitLine onSubmit={()=>this.save_key()} cancel={<AnchorButton large={true} icon="key" href="https://api2d.com/r/186008" target="_blank">{store.i18n[this.state.lang]?.key_settings_apply}</AnchorButton>} />
 
-                    </div>
-                    </Dialog>
+                </div>
+                </Dialog>
+
+                <Dialog isOpen={this.state.open_editor} title={store.i18n[this.state.lang]?.content_settings_title} icon="info-sign" onClose={()=>this.setState({"open_editor":false})}>
+                <div className="p-5 mt-2">
+
+                <TextLine type="textarea" textClass="high-box" growVertically={false} field="_content" placeholder={store.i18n[this.state.lang]?.content_settings_content} />
+                
+                <SubmitLine onSubmit={()=>this.save_content()} cancel={<Button large={true} onClick={()=>this.setState({"open_editor":false})}>取消</Button>} />
+
+                </div>
+                </Dialog>
                     
             </div>
         </div>;

@@ -18,12 +18,13 @@ class TextLine extends Component
 
         { this.props.type == 'textarea' ? 
             <TextArea
-            growVertically={true}
+            growVertically={this.props.growVertically??true}
             large={true}
             placeholder={this.props.placeholder} 
             onChange={(e)=>this.props.store[this.props.field] = e.target.value } value={value}
-            className="fluid"
+            className={this.props.textClass||""}
             fill={true}
+            
         />
             : 
             <InputGroup className={this.props.className||""} type={this.props.type} large="true" placeholder={this.props.placeholder} onChange={(e)=>this.props.store[this.props.field] = e.target.value } value={value} />

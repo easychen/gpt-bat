@@ -15,9 +15,12 @@ class AppState
     @observable system_prompt = "Please help me to translate the following text to Chinese. Please return only translated content not include the origin text.";    
     @observable user_prompt = "Here is the text: {$content}";    
     @observable max_tokens = 1000;    
+    @observable temperature = 0.1;    
     @observable upload_tokens_count = 0;    
     @observable model = "gpt-3.5-turbo"; 
     @observable lists = []; 
+
+    @observable _content = ""; 
 
     i18n = {
         "zh": {
@@ -32,6 +35,7 @@ class AppState
             "user_prompt":"User 提示词",
             "model":"模型",
             "upload_file":"选择文件",
+            "paste_text":"粘贴文本",
             "begin_process":"开始处理",
             "segment":"段",
             "about":"约",
@@ -39,6 +43,8 @@ class AppState
             "key_settings_key":"请输入OpenAI/Forward KEY: sk-xxx/fkxxx",
             "key_settings_url":"请输入API地址，如无需代理可留空",
             "key_settings_apply":"申请Forward Key · 可微信充值",
+            "content_settings_title":"粘贴内容",
+            "content_settings_content":"请将内容粘贴到这里",
         },
         "en": {
             "subtitle": "Batch Processing for GPT",
@@ -52,13 +58,16 @@ class AppState
             "user_prompt": "User Prompt",
             "model": "Model",
             "upload_file": "Select File",
+            "paste_text":"Paste Text",
             "begin_process": "Process",
             "segment": "Segments",
             "about": "About",
             "key_settings_title": "Set OpenAI/Forward Key",
             "key_settings_key": "Please enter OpenAI/Forward KEY: sk-xxx/fkxxx",
             "key_settings_url": "Please enter API address, leave blank if no proxy is needed",
-            "key_settings_apply": "Apply for Forward Key · WeChat recharge available"
+            "key_settings_apply": "Apply for Forward Key · WeChat recharge available",
+            "content_settings_title":"Paste Content",
+            "content_settings_content":"Please paste the content here",
         }
     };
 
@@ -68,7 +77,7 @@ class AppState
 
     
 
-    to_save_vars = ["openai_key","openai_api_url"];
+    to_save_vars = ["openai_key","openai_api_url","split_type","split_length","split_char","system_prompt","user_prompt","max_tokens","model","temperature"];
 
     @observable menu = [
         {"id":8001,"text":"首页","link":"/home","member_only":false},
