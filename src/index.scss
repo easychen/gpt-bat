@@ -63,20 +63,22 @@ body,html,#root,.cbox
 
 .editor
 {
-  height: calc(100vh - 80px );
+  // height: calc(100vh - 80px );
   .left
   {
     border-right: 1px solid #eee;
     padding-right: 30px;
   }
 
-  overflow: hidden;
+  margin-bottom: 50px;
+
+  // overflow: hidden;
 }
 
 .content-list
 {
   overflow-y: scroll;
-  height: calc(100vh - 200px );
+  height: calc(100vh - 300px );
   .content-item
   {
     border-bottom: 1px solid #eee;
@@ -98,6 +100,7 @@ body,html,#root,.cbox
 .high-box
 {
   min-height: 200px!important;
+  max-height: calc(100vh - 500px);
 }
 
 

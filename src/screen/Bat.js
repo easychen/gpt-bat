@@ -323,7 +323,7 @@ class Bat extends Component
                 <Dialog isOpen={this.state.open_editor} title={store.i18n[this.state.lang]?.content_settings_title} icon="info-sign" onClose={()=>this.setState({"open_editor":false})}>
                 <div className="p-5 mt-2">
 
-                <TextLine type="textarea" textClass="high-box" growVertically={false} field="_content" placeholder={store.i18n[this.state.lang]?.content_settings_content} />
+                <TextLine type="textarea" textClass="high-box" growVertically={true} field="_content" placeholder={store.i18n[this.state.lang]?.content_settings_content} />
                 
                 <SubmitLine onSubmit={()=>this.save_content()} cancel={<Button large={true} onClick={()=>this.setState({"open_editor":false})}>取消</Button>} />
 
