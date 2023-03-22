@@ -98,9 +98,9 @@ class Bat extends Component
         
         if( this.props.store.count_token == 'yes' )
         {
-            const prompts_token_count = await this.props.store.get_token_count( this.props.user_prompt + '' + this.props.system_prompt );
+            const prompts_token_count = await this.props.store.get_token_count( this.props.store.user_prompt + '' + this.props.store.system_prompt );
 
-            const content_token_count = await this.props.store.get_token_count( content );
+            const content_token_count = await this.props.store.get_token_count( content ) || 1.5*content.length;
 
             console.log( "prompts_token_count", prompts_token_count , "content_token_count", content_token_count );
             
