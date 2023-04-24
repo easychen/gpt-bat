@@ -141,6 +141,11 @@ class AppState
 
     async do_process( text, user_prompt = null, system_prompt = null, model = null, max_tokens = null )
     {
+        if( !user_prompt && !system_prompt )
+        {
+            toast( "提示词不能同时为空" );
+        }
+
         // sha256
         const args_string = text + '|' + user_prompt + '|' + system_prompt + '|' + model + '|' + max_tokens;
         const args_sha256 = sha256( args_string ).toString();
@@ -155,17 +160,23 @@ class AppState
             const api2d_instance = new api2d( this.openai_key.trim() );
             api2d_instance.setApiBaseUrl(this.openai_api_url.trim());
 
+            let messages = [];
+            if( system_prompt )
+            {
+                messages.push({
+                    "content": system_prompt,
+                    "role": "system"
+                });
+            }
+            if( user_prompt )
+            {
+                messages.push({
+                    "content": user_prompt.replace("{$content}", text),
+                    "role": "user"
+                });
+            }
             const ret =  await api2d_instance.completion( {
-                messages: [
-                    {
-                        "content": system_prompt || this.system_prompt,
-                        "role": "system"
-                    },
-                    {
-                        "content": user_prompt.replace("{$content}", text) || this.user_prompt.replace("{$content}", text),
-                        "role": "user"
-                    }
-                ],
+                messages,
                 model: model || this.model,
                 max_tokens: parseInt(max_tokens) || parseInt(this.max_tokens),
             });
