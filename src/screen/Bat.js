@@ -53,9 +53,24 @@ class Bat extends Component
     {
         if( !content || content.trim().length < 1 ) return false;
         
-        if( this.props.store.split_type == "newline" )
+        if( this.props.store.split_type == "newline" || this.props.store.split_type == "lengthAndLine" )
         {
             this.props.store.lists = content.split( "\n" ).filter( item => item.length > 1 );
+        }
+        if(this.props.store.split_type == "lengthAndLine")
+        {
+            // 按长度重新聚合
+            const split_length = parseInt( this.props.store.split_length );
+            const ret = [""];
+            for( let i = 0 ; i < this.props.store.lists.length ; i++ )
+            {
+                if(ret[ret.length-1].length + this.props.store.lists[i].length < split_length ){
+                    ret[ret.length-1] += "\n" + this.props.store.lists[i];
+                } else {
+                    ret.push( this.props.store.lists[i] );
+                }
+             }
+            this.props.store.lists = ret;
         }
         if( this.props.store.split_type == "char" )
         {
@@ -151,7 +166,7 @@ class Bat extends Component
 
         // 保存结果
         // 下载结果
-        const join_string = store.split_type == "length" ? "":"\r\n" ;
+        const join_string = store.split_type == "length" || store.split_type == "lengthAndLine" ? "":"\r\n" ;
         
         saveAs( new Blob( [ret.join(join_string)], {type: "text/plain;charset=utf-8"} ), "GPT_BAT_result.txt" );
 
@@ -230,12 +245,13 @@ class Bat extends Component
             <div className="text-lg mb-5 text-gray-400">{store.i18n[this.state.lang]?.subtitle}</div>
             
             <SingleSelectLine onChange={()=>this.spliting(this.content)} field="split_type" className="mt-2" label={store.i18n[this.state.lang]?.split_type} options={[
-                {value:"newline",label:store.i18n[this.state.lang]?.split_by_line},
+                {value:"lengthAndLine",label:store.i18n[this.state.lang]?.split_by_length_n_line},
+                {value:"newline",label:store.i18n[this.state.lang]?.split_by_line}, 
                 {value:"length",label:store.i18n[this.state.lang]?.split_by_length},
                 {value:"char",label:store.i18n[this.state.lang]?.split_by_char},
             ]} />
 
-            {this.props.store.split_type == "length" && <TextLine field="split_length" className="mt-2" placeholder={store.i18n[this.state.lang]?.split_length} />}
+            {(this.props.store.split_type == "length" || this.props.store.split_type == "lengthAndLine") && <TextLine field="split_length" className="mt-2" placeholder={store.i18n[this.state.lang]?.split_length} />}
             {this.props.store.split_type == "char" && <TextLine field="split_char" className="mt-2" placeholder={store.i18n[this.state.lang]?.split_char} />}
             
             <div className="border rounded p-5 mt-8">
