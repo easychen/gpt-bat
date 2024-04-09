@@ -8,12 +8,12 @@ const APP_VAR_PREFIX = "GPTBAT_";
 class AppState
 {
     @observable appname = "GPT::BAT";    
-    @observable split_type = "newline";    
-    @observable split_length = 1000;    
+    @observable split_type = "lengthAndLine";    
+    @observable split_length = 4000;    
     @observable split_char = '\\n---\\n';  
 
     @observable system_prompt = "Please help me to translate the following text to Chinese. Please return only translated content not include the origin text.";    
-    @observable user_prompt = "Here is the text: {$content}";    
+    @observable user_prompt = "{$content}";    
     @observable max_tokens = 1000;    
     @observable temperature = 0.1;    
     @observable upload_tokens_count = 0;    
@@ -29,6 +29,7 @@ class AppState
             "split_type":"分隔方式",
             "split_by_line":"按换行分隔",
             "split_by_length":"按长度分隔",
+            "split_by_length_n_line":"按换行分隔，并聚合",
             "split_by_char":"按特殊字符分隔",
             "split_length":"分隔长度",
             "split_char":"分隔符，支持正则",
@@ -52,6 +53,8 @@ class AppState
             "split_type": "Split Type",
             "split_by_line": "Split by Line",
             "split_by_length": "Split by Length",
+            "split_by_length_n_line":"按换行分隔，并聚合",
+
             "split_by_char": "Split by Special Character",
             "split_length": "Split Length",
             "split_char": "Split Character, supports regex",
