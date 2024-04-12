@@ -4,7 +4,7 @@
 
 Due to the limited capacity of GPT, especially GPT-3.5, it can be difficult to process long content in a chat window. Therefore, I developed GPT BAT, which can split long texts, submit them to GPT, and then concatenate the results for download.
 
-Try it out at http://r.ftqq.com/gpt-bat/
+Try it out at https://r.ftqq.com/gpt-bat/
 
 ## Instructions
 
@@ -33,7 +33,7 @@ Try it out at http://r.ftqq.com/gpt-bat/
 
 由于GPT尤其是3.5每次能处理的内容有限，如果有长内容要处理，聊天窗口就显得特别麻烦，因此我开发了 GPT BAT，它可以将长文分隔，提交给GPT，然后再将内容拼接下载。
 
-试用地址 http://r.ftqq.com/gpt-bat/
+试用地址 https://r.ftqq.com/gpt-bat/
 
 ## 使用说明 
 
