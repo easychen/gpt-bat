@@ -2,6 +2,7 @@
   "name": "gpt-bat",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "dependencies": {
     "@blueprintjs/core": "^3.50.2",
     "@dqbd/tiktoken": "^1.0.2",
