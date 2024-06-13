@@ -267,6 +267,7 @@ class Bat extends Component
             options={[
                 {value:"gpt4",label:"GPT4"},
                 {value:"gpt-3.5-turbo",label:"GPT3.5"},
+                {value:"gpt-4o",label:"gpt-4o"},
             ]} /> 
 
             </div>
