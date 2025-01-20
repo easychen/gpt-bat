@@ -266,6 +266,8 @@ class Bat extends Component
             menuPlacement='top'
             options={[
                 {value:"gpt4",label:"GPT4"},
+                {value:"gpt-4o",label:"GPT4o"},
+                {value:"gpt-4o-mini",label:"GPT4o-mini"},
                 {value:"gpt-3.5-turbo",label:"GPT3.5"},
             ]} /> 
 

@@ -17,7 +17,7 @@ class AppState
     @observable max_tokens = 1000;    
     @observable temperature = 0.1;    
     @observable upload_tokens_count = 0;    
-    @observable model = "gpt-3.5-turbo"; 
+    @observable model = "gpt-4o-mini"; 
     @observable lists = []; 
     @observable count_token = "no"; 
 
